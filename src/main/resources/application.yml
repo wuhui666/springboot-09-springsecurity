@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/blog?serverTimezone=UTC
+    driver-class-name: com.mysql.jdbc.Driver
+    password: admin
+    username: root
+mybatis:
+  mapper-locations: /mybatis/mappers/*.xml

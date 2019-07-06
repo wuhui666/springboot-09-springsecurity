@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!--解决拒绝post请求引起的403-->
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container-fluid" >
+    <div class="row">
+
+        <main role="main" class="col-lg-12">
+            <form class="form-inline" id="myform" method="post">
+                <div class="form-group">
+                    <label for="type_select">类型</label>
+
+                        <select name="jobType" id="type_select" class="form-control">
+                            <option th:value="后端开发">后端开发</option>
+                            <option th:value="移动开发">移动开发</option>
+                        </select>
+
+                </div>
+                <div class="form-group">
+                    <label for="lang_select">语言</label>
+
+                        <select name="language" id="lang_select" class="form-control">
+                            <option value="C#">C#</option>
+                            <option value="Java">Java</option>
+                            <option value="C++">C++</option>
+                            <option value="c">C</option>
+                            <option value="PHP">PHP</option>
+                            <option value="Ruby">Ruby</option>
+                            <option value="JavaScript">JavaScript</option>、
+                            <option value="算法工程师">算法工程师</option>
+                            <option value="IOS">IOS</option>
+                            <option value="HTML5">HTML5</option>
+                            <option value="Android">Android</option>
+                            <option value="数据挖掘">数据挖掘</option>
+                            <option value="Java">搜索算法</option>
+                            <option value="自然语言处理">自然语言处理</option>
+                            <option value="python">python</option>
+                            <option value=".NET">.NET</option>
+                            <option value="Node.js">Node.js</option>
+                            <option value="Perl">Perl</option>
+                            <option value="VB">VB</option>
+                        </select>
+
+                </div>
+                <div class="form-group" style="width: 10%">
+                    <label for="low">最低工资</label>
+
+                        <input style="width: 50%" id="low" name="minSalary"  class="form-control" >
+
+                </div>
+                <div class="form-group" style="width: 10%">
+                    <label for="high">最高工资</label>
+
+                        <input style="width: 50%" id="high" name="maxSalary"  class="form-control" >
+
+                </div>
+                <div class="form-group">
+                    <label for="edu_select">学历</label>
+
+                        <select name="education" id="edu_select" class="form-control">
+                            <option value="大专">本科</option>
+                            <option value="本科">本科</option>
+                            <option value="硕士">硕士</option>
+                            <option value="学历不限">学历不限</option>
+                        </select>
+
+                </div>
+                <div class="form-group">
+                    <label for="scale_select">规模</label>
+
+                        <select name="companyScale" id="scale_select" class="form-control">
+                            <option value="0-20人">0-20人</option>
+                            <option value="0-20人">20-99人</option>
+                            <option value="0-20人">100-499人</option>
+                            <option value="0-20人">500-999人</option>
+                            <option value="0-20人">1000-9999人</option>
+
+                        </select>
+
+                </div>
+                <div class="form-group">
+                    <label for="exp_select" >经验</label>
+
+                        <select name="workingTime" id="exp_select" class="form-control">
+                            <option value="经验不限">经验不限</option>
+                            <option value="应届生">应届生</option>
+                            <option value="1年以内">0-1年以内</option>
+                            <option value="1-3年">1-3年</option>
+                            <option value="3-5年">3-5年</option>
+                            <option value="5-10年">5-10年</option>
+                            <option value="10年以上">10年以上</option>
+                        </select>
+
+                </div>
+                <div class="form-group">
+                    <label for="Finance_select">融资</label>
+
+                        <select name="companyFinance" id="Finance_select" class="form-control">
+                            <option value="A轮">A轮</option>
+                            <option value="B轮">B轮</option>
+                            <option value="C轮">C轮</option>
+                            <option value="D轮及以上">D轮及以上</option>
+                            <option value="已上市">已上市</option>
+                            <option value="天使轮">天使轮</option>
+                            <option value="未融资">未融资</option>
+                            <option value="天使轮">天使轮</option>
+                        </select>
+
+                </div>
+                <div class="form-group">
+                    <button id="advice" type="button" class="btn btn-info">推荐</button>
+                </div>
+
+            </form>
+
+
+        </main>
+        <div class="col-md-12">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>职位</th>
+                    <th>方向</th>
+                    <th>语言</th>
+                    <th>相似度</th>
+                    <th>公司</th>
+                    <th>地点</th>
+                    <th>规模</th>
+                    <th>学历要求</th>
+                    <th>经验要求</th>
+                </thead>
+                <tbody id="show">
+                <tr></tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+</body>
+<script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/jquery/jquery-3.3.1.min.js}"></script>
+<script>
+
+    /*设置token解决post的403*/
+    var token=$("meta[name='_csrf']").attr("content");
+    var header=$("meta[name='_csrf_header']").attr("content");
+    /*$(document).ajaxSetup(function (e,xhr,options) {
+        xhr.setRequestHeader(header,token);
+    });*/
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+    $("#advice").click(function () {
+        var obj={};
+        $.each($("#myform").serializeArray(),function () {
+            obj[this.name]=this.value;
+        });
+        $.ajax({
+            type:"post",
+            dataType:"json",
+            url:"/advice",
+            data:JSON.stringify(obj),
+            contentType:"application/json",
+            success:function (result) {
+                if(result.length===0){
+                       alert("没有符合条件的结果...");
+                }
+                console.log(result)
+                $("#show").empty();
+                $.each(result,function () {
+                    var row=$("<tr></tr>");
+                    var p1=$("<td></td>").append(this.jobTitle);
+                    var p2=$("<td></td>").append(this.jobType);
+                    var p3=$("<td></td>").append(this.language);
+                    var p4=$("<td></td>").append(this.similarity);
+                    var p5=$("<td></td>").append(this.companyName);
+                    var p6=$("<td></td>").append(this.workingPlace);
+                    var p7=$("<td></td>").append(this.companyScale);
+                    var p8=$("<td></td>").append(this.education);
+                    var p9=$("<td></td>").append(this.workingTime);
+                    row.append(p1).append(p2).append(p3).append(p4).append(p5)
+                        .append(p6).append(p7).append(p8).append(p9);
+                    $("#show").append(row);
+                })
+            }
+        })
+    })
+</script>
+</html>
